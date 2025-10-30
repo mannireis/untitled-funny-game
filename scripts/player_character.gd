@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-@export var dash_timer : Timer
+@onready var animation_player = %AnimatedSprite2D
 
 var state: State = Idle.new()
 var can_dash = true
@@ -56,7 +56,9 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	func update(_delta: float) -> void:
+
 		pass
+
 
 class Idle extends State:
 	func enter() -> void:
@@ -78,6 +80,8 @@ class Idle extends State:
 		return null
 		
 	func update(_delta: float) -> void:
+		if !player.animation_player.is_playing():
+			player.animation_player.play("idle")
 		player.velocity.x = move_toward(player.velocity.x, 0, 50)
 
 
@@ -87,6 +91,7 @@ class Walking extends State:
 	
 	func handle_input() -> State:
 		if direction.x == 0:
+			player.animation_player.play("walk_switch")
 			return Idle.new()
 		
 		if jump_input:
@@ -99,9 +104,15 @@ class Walking extends State:
 			return Dashing.new()
 		
 		return null
+		
 
 
 	func update(_delta: float) -> void:
+		if direction.x < 0:
+			player.animation_player.flip_h = true
+		if direction.x > 0:
+			player.animation_player.flip_h = false
+		player.animation_player.play("walk")
 		player.velocity.x = direction.x * move_toward(150, SPEED, 50)
 
 
@@ -109,8 +120,9 @@ class Jumping extends State:
 	const jump_force = -200
 	
 	func enter() -> void:
+		player.animation_player.play("jump_start")
+		player.animation_player.stop()
 		player.velocity.y = jump_force
-
 
 	func handle_input() -> State:
 		if player.velocity.y >= 0:
@@ -118,18 +130,34 @@ class Jumping extends State:
 
 		if dash_input:
 			return Dashing.new()
+
 		return null
 	
 	
 	func update(_delta: float) -> void:
+		if direction.x < 0:
+			player.animation_player.flip_h = true
+		if direction.x > 0:
+			player.animation_player.flip_h = false
+
+		if !player.animation_player.is_playing():
+			player.animation_player.play("jump_up")
+
+		if player.velocity.y <= 0:
+			if Input.is_action_just_released("jump"):
+				player.velocity.y *= 0.3
+
 		player.velocity.x = direction.x * SPEED
 
 		player.velocity += player.get_gravity() * _delta
 
 
 class Falling extends State:
+	const gravity = 100
+	
 	func handle_input() -> State:
 		if player.is_on_floor():
+			player.animation_player.play("land")
 			return Idle.new()
 		if dash_input:
 			return Dashing.new()
@@ -137,6 +165,12 @@ class Falling extends State:
 	
 	
 	func update(_delta: float) -> void:
+		if direction.x < 0:
+			player.animation_player.flip_h = true
+		if direction.x > 0:
+			player.animation_player.flip_h = false
+
+		player.animation_player.play("fall")
 		player.velocity.x = direction.x * SPEED
 		player.velocity += player.get_gravity() * _delta
 
@@ -148,6 +182,10 @@ class Dashing extends State:
 	var is_dashing = false
 	var dash_dir: Vector2 = Vector2.RIGHT
 	var dash_timer = 0
+	
+	func enter() -> void:
+		player.animation_player.play("dash")
+	
 	
 	func update(_delta: float) -> void:
 		if direction.x != 0:

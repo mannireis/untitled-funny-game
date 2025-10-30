@@ -12,6 +12,7 @@ config_version=5
 
 config/name="the one idk"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0.20349923, 0.16859207, 0.56147045, 1)
 config/icon="res://icon.svg"
 
 [display]
@@ -96,5 +97,6 @@ right={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
