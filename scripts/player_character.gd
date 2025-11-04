@@ -4,14 +4,31 @@ extends CharacterBody2D
 @onready var animation_player = %AnimatedSprite2D
 
 var state: State = Idle.new()
-var can_dash = true
+var dashes = 1
 
 func _ready() -> void:
 	state.player = self
 
 func _physics_process(delta: float) -> void:
-	print(state)
 	var new_state = state.handle_input()
+	var hair_color_1: Color = Color("#1ebc73")
+	var hair_color_2: Color = Color("#239063")
+	var hair_color_1_new: Color = Color("#533b41")
+	var hair_color_2_new: Color = Color("#3c252b")
+
+	var mat: Material = animation_player.material
+
+	if mat is ShaderMaterial:
+		if dashes > 0:
+			mat.set_shader_parameter("from_color_1", hair_color_1)
+			mat.set_shader_parameter("to_color_1", hair_color_1)
+			mat.set_shader_parameter("from_color_2", hair_color_2)
+			mat.set_shader_parameter("to_color_2", hair_color_2)
+		else:
+			mat.set_shader_parameter("from_color_1", hair_color_1)
+			mat.set_shader_parameter("to_color_1", hair_color_1_new)
+			mat.set_shader_parameter("from_color_2", hair_color_2)
+			mat.set_shader_parameter("to_color_2", hair_color_2_new)
 	
 	if new_state != null:
 		var old_state = state
@@ -32,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	var direction: Vector2:
 		get():
 			return Vector2(Input.get_axis("left", "right"), 
-			Input.get_axis("up", "down")).normalized()
+			Input.get_axis("up", "down"))
 
 	var jump_input: bool:
 		get():
@@ -62,7 +79,7 @@ func _physics_process(delta: float) -> void:
 
 class Idle extends State:
 	func enter() -> void:
-		player.can_dash = true
+		player.dashes = 1
 	
 	func handle_input() -> State:
 		if not player.is_on_floor():
@@ -87,7 +104,7 @@ class Idle extends State:
 
 class Walking extends State:
 	func enter() -> void:
-		player.can_dash = true
+		player.dashes = 1
 	
 	func handle_input() -> State:
 		if direction.x == 0:
@@ -176,43 +193,82 @@ class Falling extends State:
 
 
 class Dashing extends State:
-	const DASH_FORCE = 240
-	const DASH_TIME = 0.03
-	
-	var is_dashing = false
-	var dash_dir: Vector2 = Vector2.RIGHT
-	var dash_timer = 0
-	
+	const DASH_FORCE := 240
+	const DASH_TIME := 0.15
+
+	var dash_dir := Vector2.ZERO
+	var dash_timer := 0.0
+	var is_dashing := false
+
 	func enter() -> void:
 		player.animation_player.play("dash")
-	
-	
-	func update(_delta: float) -> void:
-		if direction.x != 0:
-			dash_dir.x = direction.x
-			
-		if player.can_dash:
-			var final_dash_dir: Vector2 = dash_dir
-			if direction.y != 0 and direction.x == 0:
-				final_dash_dir.x = 0
-			final_dash_dir.y = direction.y
-			
-			player.can_dash = false
-			is_dashing = true
-			dash_timer = DASH_TIME
-			
-			player.velocity = final_dash_dir * DASH_FORCE
-			
+		is_dashing = true
+		dash_timer = DASH_TIME
+		player.dashes =- 1
+
+		dash_dir = direction.normalized()
+
+		if dash_dir == Vector2.ZERO:
+			if player.animation_player.flip_h:
+				dash_dir = Vector2.LEFT
+			else:
+				dash_dir = Vector2.RIGHT
+
+		player.velocity = dash_dir * DASH_FORCE
+
+	func update(delta: float) -> void:
 		if is_dashing:
-			dash_timer -= _delta
+			dash_timer -= delta
+			player.velocity = dash_dir * DASH_FORCE 
 			if dash_timer <= 0:
 				is_dashing = false
-	
-	
+		else:
+			player.velocity += player.get_gravity() * delta
+
 	func handle_input() -> State:
-		if is_dashing == false:
+		if not is_dashing:
 			return Falling.new()
 		return null
+
+
+#class Dashing extends State: #old dash state
+	#const DASH_FORCE = 240
+	#const DASH_TIME = 0.03
+	#
+	#var is_dashing = false
+	#var dash_dir: Vector2 = Vector2.RIGHT
+	#var dash_timer = 0
+	#
+	#func enter() -> void:
+		#player.animation_player.play("dash")
+	#
+	#
+	#func update(_delta: float) -> void:
+		#if direction.x != 0:
+			#dash_dir.x = direction.x
+			#
+		#if player.can_dash:
+			#var final_dash_dir: Vector2 = dash_dir
+			#if direction.y != 0 and direction.x == 0:
+				#final_dash_dir.x = 0
+			#final_dash_dir.y = direction.y
+			#
+			#player.can_dash = false
+			#is_dashing = true
+			#dash_timer = DASH_TIME
+			#
+			#player.velocity = final_dash_dir * DASH_FORCE
+			#
+		#if is_dashing:
+			#dash_timer -= _delta
+			#if dash_timer <= 0:
+				#is_dashing = false
+	#
+	#
+	#func handle_input() -> State:
+		#if !is_dashing:
+			#return Falling.new()
+		#return null
 
 
 class Climbing extends State:

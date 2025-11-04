@@ -11,18 +11,17 @@ config_version=5
 [application]
 
 config/name="the one idk"
+run/main_scene="uid://chfs5xb5yi5j3"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0.20349923, 0.16859207, 0.56147045, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=360
-window/size/viewport_height=180
-window/size/mode=4
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/resizable=false
-window/stretch/mode="viewport"
-window/stretch/scale_mode="integer"
 
 [editor_plugins]
 

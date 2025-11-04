@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://qs5jykflwq7o"]
+
+[ext_resource type="Texture2D" uid="uid://dktkco262tjtd" path="res://assets/testing.png" id="1_yo0lp"]
+[ext_resource type="Theme" uid="uid://bn8ccyqqsoplu" path="res://resources/control.tres" id="2_bchhi"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backgroud" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("1_yo0lp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 432.0
+offset_right = 260.0
+offset_bottom = 568.0
+
+[node name="Play" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_bchhi")
+text = "Play"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_bchhi")
+text = "Options"
+
+[node name="Credits" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_bchhi")
+text = "Credits"
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_bchhi")
+text = "Exit"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Charecter" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2

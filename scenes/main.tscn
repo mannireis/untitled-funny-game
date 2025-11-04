@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://chfs5xb5yi5j3"]
+
+[ext_resource type="Shader" uid="uid://cj8wr4jyoan5r" path="res://shaders/subpixel.gdshader" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://c12eqxngq0gtv" path="res://scenes/world.tscn" id="1_o5qli"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sugp2"]
+shader = ExtResource("1_0wfyh")
+shader_parameter/cam_offset = Vector2(0, 0)
+
+[node name="Main" type="Node2D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_sugp2")
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 318.0
+offset_bottom = 178.0
+scale = Vector2(4, 4)
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(322, 182)
+render_target_update_mode = 4
+
+[node name="world" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_o5qli")]
+texture_filter = 1

@@ -1,10 +1,19 @@
-[gd_scene load_steps=27 format=3 uid="uid://bspj6kg6h7yff"]
+[gd_scene load_steps=29 format=3 uid="uid://bspj6kg6h7yff"]
 
 [ext_resource type="Script" uid="uid://d2pawc44bhp08" path="res://scripts/player_character.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://ct478gjhe3a76" path="res://assets/autumn/autumn.png" id="2_g2els"]
+[ext_resource type="Shader" uid="uid://bdtslb7hqfrwt" path="res://shaders/hair.gdshader" id="2_qhqgy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
-size = Vector2(5, 12)
+size = Vector2(7, 13)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqkch"]
+shader = ExtResource("2_qhqgy")
+shader_parameter/from_color_1 = Color(0, 0, 0, 1)
+shader_parameter/to_color_1 = Color(0, 0, 0, 1)
+shader_parameter/from_color_2 = Color(0, 0, 0, 1)
+shader_parameter/to_color_2 = Color(0, 0, 0, 1)
+shader_parameter/threshold = 0.05
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ni07"]
 atlas = ExtResource("2_g2els")
@@ -207,16 +216,8 @@ animations = [{
 script = ExtResource("1_3vyb7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, -2)
+position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_g2els")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -4)
-sprite_frames = SubResource("SpriteFrames_3vyb7")
-animation = &"idle"
 
 [node name="wall_climb_raycasts" type="Node2D" parent="."]
 position = Vector2(1, -5)
@@ -235,3 +236,10 @@ target_position = Vector2(6, 0)
 [node name="RayCast2D" type="RayCast2D" parent="wall_climb_raycasts"]
 position = Vector2(-1, 6)
 target_position = Vector2(-6, 0)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_dqkch")
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_3vyb7")
+animation = &"idle"
