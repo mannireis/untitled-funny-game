@@ -1,7 +1,32 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bn8ccyqqsoplu"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bn8ccyqqsoplu"]
 
 [ext_resource type="FontFile" uid="uid://c3cudtb5cfc54" path="res://assets/fonts/Renogare-Regular.otf" id="1_7nhtb"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7nhtb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m2uyd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w0gom"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_617n2"]
+bg_color = Color(0.1882353, 0.1882353, 0.1882353, 0.5411765)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a08fy"]
+
 [resource]
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
 Button/font_sizes/font_size = 48
 Button/fonts/font = ExtResource("1_7nhtb")
+Button/styles/disabled = SubResource("StyleBoxEmpty_7nhtb")
+Button/styles/disabled_mirrored = SubResource("StyleBoxEmpty_m2uyd")
+Button/styles/focus = SubResource("StyleBoxEmpty_w0gom")
+Button/styles/hover = SubResource("StyleBoxFlat_617n2")
+Button/styles/hover_mirrored = null
+Button/styles/hover_pressed = null
+Button/styles/hover_pressed_mirrored = null
+Button/styles/normal = SubResource("StyleBoxEmpty_a08fy")
+Button/styles/normal_mirrored = null
+Button/styles/pressed = null
+Button/styles/pressed_mirrored = null

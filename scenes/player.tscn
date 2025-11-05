@@ -237,9 +237,21 @@ target_position = Vector2(6, 0)
 position = Vector2(-1, 6)
 target_position = Vector2(-6, 0)
 
+[node name="CoyoteTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.15
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.08
+one_shot = true
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_dqkch")
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_3vyb7")
 animation = &"idle"
+
+[node name="GrappleRay" type="RayCast2D" parent="."]
