@@ -228,14 +228,14 @@ class Dashing extends State:
 
 		player.velocity = dash_dir * DASH_FORCE
 
-	func update(delta: float) -> void:
+	func update(_delta: float) -> void:
 		if is_dashing:
-			dash_timer -= delta
+			dash_timer -= _delta
 			player.velocity = dash_dir * DASH_FORCE 
 			if dash_timer <= 0:
 				is_dashing = false
-		else:
-			player.velocity += player.get_gravity() * delta
+	
+		player.velocity += player.get_gravity() * _delta
 
 	func handle_input() -> State:
 		if not is_dashing:

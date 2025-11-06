@@ -783,10 +783,6 @@ sources/2 = SubResource("TileSetScenesCollectionSource_i7141")
 
 [node name="world" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(187, 585)
-script = ExtResource("1_71j4m")
-
 [node name="TileMap" type="Node2D" parent="."]
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="TileMap"]
@@ -799,3 +795,7 @@ tile_set = SubResource("TileSet_4wyf3")
 
 [node name="player" parent="." instance=ExtResource("2_rwgxs")]
 position = Vector2(187, 585)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(187, 585)
+script = ExtResource("1_71j4m")

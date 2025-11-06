@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://b211yy7hoo0gs"]
+
+[ext_resource type="Script" uid="uid://dpjkmqrgr12vn" path="res://scripts/camera_2d.gd" id="1_rqg1p"]
+[ext_resource type="PackedScene" uid="uid://cnb6rqppxp78b" path="res://scenes/room_system.tscn" id="2_hjhkr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w8vrr"]
+size = Vector2(241, 120)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(nan, nan)
+limit_enabled = false
+script = ExtResource("1_rqg1p")
+metadata/_custom_type_script = "uid://dpjkmqrgr12vn"
+
+[node name="Area2D" parent="." node_paths=PackedStringArray("camera", "camera_location") instance=ExtResource("2_hjhkr")]
+position = Vector2(562, 306)
+respawn_position = Vector2(0, 0)
+camera = NodePath("../Camera")
+camera_location = NodePath("Marker2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_w8vrr")
+
+[node name="Marker2D" type="Marker2D" parent="Area2D"]

@@ -255,3 +255,4 @@ sprite_frames = SubResource("SpriteFrames_3vyb7")
 animation = &"idle"
 
 [node name="GrappleRay" type="RayCast2D" parent="."]
+visible = false

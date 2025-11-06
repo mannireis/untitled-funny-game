@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://xjy4fq50ma2r"]
+[gd_scene load_steps=3 format=3 uid="uid://xjy4fq50ma2r"]
 
 [ext_resource type="Script" uid="uid://bnv156vatp00b" path="res://scenes/ui/load.gd" id="1_hv22g"]
+[ext_resource type="Theme" uid="uid://bn8ccyqqsoplu" path="res://resources/control.tres" id="2_ml0po"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -10,3 +11,46 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hv22g")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -129.0
+offset_top = -11.5
+offset_right = 129.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_ml0po")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "LOADING :meow: meoooow mrrp"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.66800004
+anchor_right = 0.5
+anchor_bottom = 0.66800004
+offset_left = -316.0
+offset_top = -23.440063
+offset_right = 306.0
+offset_bottom = 33.559937
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(334, 318)
+theme = ExtResource("2_ml0po")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "press any button to skip"

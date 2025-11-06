@@ -30,3 +30,5 @@ Button/styles/normal = SubResource("StyleBoxEmpty_a08fy")
 Button/styles/normal_mirrored = null
 Button/styles/pressed = null
 Button/styles/pressed_mirrored = null
+Label/font_sizes/font_size = 48
+Label/fonts/font = ExtResource("1_7nhtb")
