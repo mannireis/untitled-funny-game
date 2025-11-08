@@ -1,5 +1,5 @@
 extends Camera2D
-class_name Camera
+class_name RoomCamera
 
 @export var room : Area2D
 
@@ -10,7 +10,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	#actual_cam_pos = actual_cam_pos.lerp($"../player".global_position, delta * 3)
+	actual_cam_pos = actual_cam_pos.lerp($"../player".position, delta * 3)
+	
 	var cam_subpixel_offset = actual_cam_pos.round() - actual_cam_pos
 	
 	Main.get_child(0).material.set_shader_parameter("cam_offset", cam_subpixel_offset)

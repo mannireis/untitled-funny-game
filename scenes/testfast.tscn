@@ -16,7 +16,6 @@ metadata/_custom_type_script = "uid://dpjkmqrgr12vn"
 
 [node name="Area2D" parent="." node_paths=PackedStringArray("camera", "camera_location") instance=ExtResource("2_hjhkr")]
 position = Vector2(562, 306)
-respawn_position = Vector2(0, 0)
 camera = NodePath("../Camera")
 camera_location = NodePath("Marker2D")
 

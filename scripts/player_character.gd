@@ -6,13 +6,47 @@ extends CharacterBody2D
 @onready var jump_buffer_timer = %JumpBufferTimer
 
 var state: State = Idle.new()
-var dashes = 1
+var can_dash := true
+var respawn_location: Vector2
 
 func _ready() -> void:
 	state.player = self
 
 func _physics_process(delta: float) -> void:
 	var new_state = state.handle_input()
+
+	if new_state != null:
+		var old_state = state
+		old_state.exit()
+		new_state.player = self
+		new_state.enter()
+		state = new_state
+	
+	update_squash(delta)
+	update_hair()
+	state.update(delta)
+	move_and_slide()
+
+
+func update_squash(delta: float):
+
+	if velocity.y > 100:
+		animation_player.scale.y = move_toward(1, 3, 10 * delta)
+		animation_player.scale.x = move_toward(1, 0.6, 10 * delta)
+	
+	if state is Dashing and state.direction.x:
+		animation_player.scale.y = move_toward(1, 0.5, 20 * delta)
+		animation_player.scale.x = move_toward(1, 3, 20 * delta)
+
+	if state is Dashing and state.direction.y:
+		animation_player.scale.y = move_toward(1, 3, 20 * delta)
+		animation_player.scale.x = move_toward(1, 0.6, 20 * delta)
+
+	animation_player.scale.x = move_toward(animation_player.scale.x, 1, 3 * delta)
+	animation_player.scale.y = move_toward(animation_player.scale.y, 1, 3 * delta)
+
+
+func update_hair():
 	var hair_color_1: Color = Color("#1ebc73")
 	var hair_color_2: Color = Color("#239063")
 	var hair_color_1_new: Color = Color("#533b41")
@@ -21,7 +55,7 @@ func _physics_process(delta: float) -> void:
 	var mat: Material = animation_player.material
 
 	if mat is ShaderMaterial:
-		if dashes > 0:
+		if can_dash:
 			mat.set_shader_parameter("from_color_1", hair_color_1)
 			mat.set_shader_parameter("to_color_1", hair_color_1)
 			mat.set_shader_parameter("from_color_2", hair_color_2)
@@ -31,16 +65,6 @@ func _physics_process(delta: float) -> void:
 			mat.set_shader_parameter("to_color_1", hair_color_1_new)
 			mat.set_shader_parameter("from_color_2", hair_color_2)
 			mat.set_shader_parameter("to_color_2", hair_color_2_new)
-	
-	if new_state != null:
-		var old_state = state
-		old_state.exit()
-		new_state.player = self
-		new_state.enter()
-		state = new_state
-	
-	state.update(delta)
-	move_and_slide()
 
 
 @abstract class State:
@@ -81,7 +105,7 @@ func _physics_process(delta: float) -> void:
 
 class Idle extends State:
 	func enter() -> void:
-		player.dashes = 1
+		player.can_dash = true
 	
 	func handle_input() -> State:
 		if not player.is_on_floor():
@@ -109,7 +133,7 @@ class Idle extends State:
 
 class Walking extends State:
 	func enter() -> void:
-		player.dashes = 1
+		player.can_dash = true
 	
 	func handle_input() -> State:
 		if direction.x == 0:
@@ -213,20 +237,21 @@ class Dashing extends State:
 	var is_dashing := false
 
 	func enter() -> void:
-		player.animation_player.play("dash")
-		is_dashing = true
-		dash_timer = DASH_TIME
-		player.dashes =- 1
+		if player.can_dash:
+			player.animation_player.play("dash")
+			is_dashing = true
+			dash_timer = DASH_TIME
+			player.can_dash = false
 
-		dash_dir = direction.normalized()
+			dash_dir = direction.normalized()
 
-		if dash_dir == Vector2.ZERO:
-			if player.animation_player.flip_h:
-				dash_dir = Vector2.LEFT
-			else:
-				dash_dir = Vector2.RIGHT
+			if dash_dir == Vector2.ZERO:
+				if player.animation_player.flip_h:
+					dash_dir = Vector2.LEFT
+				else:
+					dash_dir = Vector2.RIGHT
 
-		player.velocity = dash_dir * DASH_FORCE
+			player.velocity = dash_dir * DASH_FORCE
 
 	func update(_delta: float) -> void:
 		if is_dashing:
@@ -234,7 +259,10 @@ class Dashing extends State:
 			player.velocity = dash_dir * DASH_FORCE 
 			if dash_timer <= 0:
 				is_dashing = false
-	
+		
+		if dash_dir.y and dash_dir.x == 0:
+			player.velocity += player.get_gravity() * _delta * 3
+
 		player.velocity += player.get_gravity() * _delta
 
 	func handle_input() -> State:
@@ -245,6 +273,7 @@ class Dashing extends State:
 
 class Climbing extends State:
 	pass
+
 
 class Grapple extends State:
 	pass
