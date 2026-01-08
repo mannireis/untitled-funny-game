@@ -1,25 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://b211yy7hoo0gs"]
+[gd_scene load_steps=6 format=3 uid="uid://b211yy7hoo0gs"]
 
-[ext_resource type="Script" uid="uid://dpjkmqrgr12vn" path="res://scripts/camera_2d.gd" id="1_rqg1p"]
 [ext_resource type="PackedScene" uid="uid://cnb6rqppxp78b" path="res://scenes/room_system.tscn" id="2_hjhkr"]
+[ext_resource type="PackedScene" uid="uid://bspj6kg6h7yff" path="res://scenes/player.tscn" id="3_hjhkr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqg1p"]
+size = Vector2(233, 125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w8vrr"]
 size = Vector2(241, 120)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hjhkr"]
+size = Vector2(1037, 20)
+
 [node name="Node2D" type="Node2D"]
 
-[node name="Camera" type="Camera2D" parent="."]
-position = Vector2(nan, nan)
-limit_enabled = false
-script = ExtResource("1_rqg1p")
-metadata/_custom_type_script = "uid://dpjkmqrgr12vn"
+[node name="Area2D3" parent="." instance=ExtResource("2_hjhkr")]
+position = Vector2(1041, 309)
 
-[node name="Area2D" parent="." node_paths=PackedStringArray("camera", "camera_location") instance=ExtResource("2_hjhkr")]
-position = Vector2(562, 306)
-camera = NodePath("../Camera")
-camera_location = NodePath("Marker2D")
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("RectangleShape2D_rqg1p")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Area2D" parent="." instance=ExtResource("2_hjhkr")]
+position = Vector2(804, 306)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_w8vrr")
 
 [node name="Marker2D" type="Marker2D" parent="Area2D"]
+
+[node name="Area2D2" parent="." instance=ExtResource("2_hjhkr")]
+position = Vector2(562, 306)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_w8vrr")
+
+[node name="Marker2D" type="Marker2D" parent="Area2D2"]
+
+[node name="player" parent="." instance=ExtResource("3_hjhkr")]
+position = Vector2(560, 278)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(560, 278)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(786.5, 337)
+shape = SubResource("RectangleShape2D_hjhkr")

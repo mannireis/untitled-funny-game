@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cnb6rqppxp78b"]
+[gd_scene load_steps=3 format=3 uid="uid://cnb6rqppxp78b"]
 
 [ext_resource type="Script" uid="uid://ciuo0kxlk8ay2" path="res://scripts/room_system.gd" id="1_c4mdl"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4mdl"]
+size = Vector2(320, 180)
+
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_c4mdl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c4mdl")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

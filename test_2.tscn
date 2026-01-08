@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6q03ua4ju8if"]
+
+[ext_resource type="Script" uid="uid://du0s5e617p64d" path="res://test.gd" id="1_tam42"]
+[ext_resource type="PackedScene" uid="uid://bspj6kg6h7yff" path="res://scenes/player.tscn" id="2_m0tip"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m0tip"]
+size = Vector2(264, 118)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tam42"]
+size = Vector2(792, 20)
+
+[node name="test_2" type="Node2D"]
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(290, -1)
+script = ExtResource("1_tam42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("RectangleShape2D_m0tip")
+
+[node name="Area2D2" type="Area2D" parent="."]
+script = ExtResource("1_tam42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_m0tip")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(108, 79)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_tam42")
+
+[node name="player" parent="." instance=ExtResource("2_m0tip")]
+position = Vector2(-36, 33)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-14, -139)
+
+[connection signal="body_entered" from="Area2D2" to="Area2D2" method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D2" to="Area2D2" method="_on_body_exited"]

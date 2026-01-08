@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://7syfe5llqq5f"]
+
+[ext_resource type="Texture2D" uid="uid://bg6hlahqljgx3" path="res://assets/star.png" id="1_74umk"]
+[ext_resource type="Script" uid="uid://be2mnjp4cd548" path="res://resources/dash.gd" id="1_dd3s3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jwsk5"]
+size = Vector2(13, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dd3s3"]
+atlas = ExtResource("1_74umk")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s1ouw"]
+atlas = ExtResource("1_74umk")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0aqsr"]
+atlas = ExtResource("1_74umk")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_npk82"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dd3s3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s1ouw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0aqsr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="Dash" type="Node2D"]
+script = ExtResource("1_dd3s3")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.5, 1.5)
+shape = SubResource("RectangleShape2D_jwsk5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_npk82")
+autoplay = "default"
+frame = 1
+frame_progress = 0.057112947
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
