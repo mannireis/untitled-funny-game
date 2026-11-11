@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bspj6kg6h7yff"]
+[gd_scene format=3 uid="uid://bspj6kg6h7yff"]
 
 [ext_resource type="Script" uid="uid://d2pawc44bhp08" path="res://scripts/player_character.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://ct478gjhe3a76" path="res://assets/autumn/autumn.png" id="2_g2els"]
@@ -219,57 +219,57 @@ radius = 4.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
 size = Vector2(6, 12.5)
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" unique_id=1642661967]
 collision_mask = 9
 script = ExtResource("1_3vyb7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1087147887]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_g2els")
 
-[node name="CoyoteTimer" type="Timer" parent="."]
+[node name="CoyoteTimer" type="Timer" parent="." unique_id=2145464168]
 unique_name_in_owner = true
 wait_time = 0.15
 one_shot = true
 
-[node name="JumpBufferTimer" type="Timer" parent="."]
+[node name="JumpBufferTimer" type="Timer" parent="." unique_id=50562120]
 unique_name_in_owner = true
 wait_time = 0.08
 one_shot = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=653973831]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_dqkch")
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_3vyb7")
 animation = &"idle"
 
-[node name="grapple" type="Area2D" parent="."]
+[node name="grapple" type="Area2D" parent="." unique_id=14926819]
 unique_name_in_owner = true
 visible = false
 
-[node name="Icon" type="Sprite2D" parent="grapple"]
+[node name="Icon" type="Sprite2D" parent="grapple" unique_id=378922765]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("4_dqkch")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="grapple"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="grapple" unique_id=101937566]
 shape = SubResource("CircleShape2D_dqkch")
 
-[node name="RayCast2D2" type="RayCast2D" parent="."]
+[node name="RayCast2D2" type="RayCast2D" parent="." unique_id=962850743]
 unique_name_in_owner = true
 target_position = Vector2(-6, 0)
 collision_mask = 8
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=565746691]
 unique_name_in_owner = true
 target_position = Vector2(8, 0)
 collision_mask = 8
 
-[node name="Death" type="Area2D" parent="."]
+[node name="Death" type="Area2D" parent="." unique_id=478591587]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Death"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Death" unique_id=1020968764]
 position = Vector2(1, -3)
 shape = SubResource("RectangleShape2D_dqkch")
 
